@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:kafka_lab_test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      group-id: test-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+app:
+  kafka:
+    topics:
+      events: events-topic
+      dlq: events-dlq
+    retry:
+      max-attempts: 4
+      initial-interval-ms: 300
+      multiplier: 1.5
+      max-interval-ms: 1500
+    simulator:
+      transient-fail-count: 2
